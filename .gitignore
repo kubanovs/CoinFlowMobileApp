@@ -1,0 +1,61 @@
+# macOS system files
+.DS_Store
+Thumbs.db
+
+# Xcode
+build/
+DerivedData/
+xcuserdata/
+*.xcworkspace
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+
+# Swift Package Manager
+/.swiftpm
+/Package.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/
+Carthage/Checkouts
+Carthage/Build
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+
+# Archives
+*.xcarchive
+*.ipa
+
+# Environment & Secrets
+.env
+*.key
+*.pem
+*.p12
+*.mobileprovision
+
+# Logs & Temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+*.swn
+
+# Generated Schemes
+*.xcscheme
+*.xcscmblueprint
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# SwiftLint & SwiftFormat
+.swiftlint.yml
+.swiftformat
+
