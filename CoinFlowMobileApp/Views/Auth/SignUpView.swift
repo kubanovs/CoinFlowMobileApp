@@ -23,24 +23,30 @@ struct SignUpView: View {
                     Button(action: {
                         // GitHub sign up action
                     }) {
-                        HStack {
-                            Image("logo.github")
-                                .font(.system(size: 22, weight: .bold))
-                            Text("Sign up with GitHub")
-                                .font(.system(size: 20, weight: .semibold))
+                        Button {
+                            GoogleAuthViewModel.login()
+                        } label: {
+                            HStack {
+                                Image("logo.google")
+                                    .resizable()
+                                    .frame(width: 40, height: 30)
+                                    .font(.system(size: 22, weight: .bold))
+                                Text("Sign up with Google")
+                                    .font(.system(size: 20, weight: .semibold))
+                            }
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(10)
+                            .background(Color.white)
+                            .cornerRadius(40)
+                            .shadow(color: Color.black.opacity(0.25), radius: 16, x: 0, y: 8)
                         }
-                        .foregroundColor(.black)
-                        .frame(maxWidth: .infinity)
-                        .padding(10)
-                        .background(Color.white)
-                        .cornerRadius(40)
-                        .shadow(color: Color.black.opacity(0.25), radius: 16, x: 0, y: 8)
                     }
                     Text("or")
                         .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(.white)
                     Button(action: {
-                        showEmailSignUp = true
+                        self.showEmailSignUp = true
                     }) {
                         Text("Sign up with E-mail")
                             .font(.system(size: 20, weight: .semibold))
@@ -54,7 +60,7 @@ struct SignUpView: View {
                             )
                             .cornerRadius(40)
                     }
-                    NavigationLink(destination: EmailSignUpView(), isActive: $showEmailSignUp) { EmptyView() }
+                    NavigationLink(destination: EmailSignUpView(), isActive: self.$showEmailSignUp) { EmptyView() }
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 32)

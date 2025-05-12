@@ -10,15 +10,30 @@
 		9E0183672D4FDD6F0034726E /* AppAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9E0183662D4FDD6F0034726E /* AppAuth */; };
 		9E0183692D4FDD6F0034726E /* AppAuthCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9E0183682D4FDD6F0034726E /* AppAuthCore */; };
 		9E01836B2D4FDD6F0034726E /* AppAuthTV in Frameworks */ = {isa = PBXBuildFile; productRef = 9E01836A2D4FDD6F0034726E /* AppAuthTV */; };
+		9E796F602DCCE7AA00EC2E4E /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9E796F5F2DCCE7AA00EC2E4E /* OAuthSwift */; };
+		9E796F632DCD285B00EC2E4E /* OAuth2 in Frameworks */ = {isa = PBXBuildFile; productRef = 9E796F622DCD285B00EC2E4E /* OAuth2 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9E0183542D4FDB520034726E /* CoinFlowMobileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoinFlowMobileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9E796F592DCCE58F00EC2E4E /* Exceptions for "CoinFlowMobileApp" folder in "CoinFlowMobileApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 9E0183532D4FDB520034726E /* CoinFlowMobileApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9E0183562D4FDB520034726E /* CoinFlowMobileApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9E796F592DCCE58F00EC2E4E /* Exceptions for "CoinFlowMobileApp" folder in "CoinFlowMobileApp" target */,
+			);
 			path = CoinFlowMobileApp;
 			sourceTree = "<group>";
 		};
@@ -29,6 +44,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E796F632DCD285B00EC2E4E /* OAuth2 in Frameworks */,
+				9E796F602DCCE7AA00EC2E4E /* OAuthSwift in Frameworks */,
 				9E01836B2D4FDD6F0034726E /* AppAuthTV in Frameworks */,
 				9E0183672D4FDD6F0034726E /* AppAuth in Frameworks */,
 				9E0183692D4FDD6F0034726E /* AppAuthCore in Frameworks */,
@@ -77,6 +94,8 @@
 				9E0183662D4FDD6F0034726E /* AppAuth */,
 				9E0183682D4FDD6F0034726E /* AppAuthCore */,
 				9E01836A2D4FDD6F0034726E /* AppAuthTV */,
+				9E796F5F2DCCE7AA00EC2E4E /* OAuthSwift */,
+				9E796F622DCD285B00EC2E4E /* OAuth2 */,
 			);
 			productName = CoinFlowMobileApp;
 			productReference = 9E0183542D4FDB520034726E /* CoinFlowMobileApp.app */;
@@ -108,6 +127,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				9E0183652D4FDD6F0034726E /* XCRemoteSwiftPackageReference "AppAuth-iOS" */,
+				9E796F5E2DCCE7AA00EC2E4E /* XCRemoteSwiftPackageReference "OAuthSwift" */,
+				9E796F612DCD285B00EC2E4E /* XCRemoteSwiftPackageReference "OAuth2" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9E0183552D4FDB520034726E /* Products */;
@@ -270,6 +291,7 @@
 				DEVELOPMENT_TEAM = 22562U9KK9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CoinFlowMobileApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -299,6 +321,7 @@
 				DEVELOPMENT_TEAM = 22562U9KK9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CoinFlowMobileApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -349,6 +372,22 @@
 				minimumVersion = 1.7.6;
 			};
 		};
+		9E796F5E2DCCE7AA00EC2E4E /* XCRemoteSwiftPackageReference "OAuthSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/OAuthSwift/OAuthSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
+		9E796F612DCD285B00EC2E4E /* XCRemoteSwiftPackageReference "OAuth2" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/p2/OAuth2";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.3.5;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -366,6 +405,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9E0183652D4FDD6F0034726E /* XCRemoteSwiftPackageReference "AppAuth-iOS" */;
 			productName = AppAuthTV;
+		};
+		9E796F5F2DCCE7AA00EC2E4E /* OAuthSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E796F5E2DCCE7AA00EC2E4E /* XCRemoteSwiftPackageReference "OAuthSwift" */;
+			productName = OAuthSwift;
+		};
+		9E796F622DCD285B00EC2E4E /* OAuth2 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E796F612DCD285B00EC2E4E /* XCRemoteSwiftPackageReference "OAuth2" */;
+			productName = OAuth2;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

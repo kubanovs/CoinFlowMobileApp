@@ -1,35 +1,61 @@
 import SwiftUI
 
-struct AddCategoryView: View {
-    @State private var categoryName: String = ""
-    @State private var budgetLimit: String = ""
+struct AddIncomeView: View {
+    @State private var name = ""
+    @State private var description = ""
+    @State private var sum = ""
+    @State private var selectedCategory = "Salary"
     @State private var errorMessage: String? = nil
-    
+
+    let categories = ["Salary", "Gift"]
+
     var body: some View {
         ZStack {
             Color(red: 0.15, green: 0.15, blue: 0.19)
                 .ignoresSafeArea()
             VStack(spacing: 32) {
                 Spacer().frame(height: 32)
-                Text("Add New Category")
+                Text("Add Income")
                     .font(.system(size: 32, weight: .bold))
                     .foregroundColor(.white)
                     .padding(.bottom, 24)
                 VStack(alignment: .leading, spacing: 20) {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Category Name")
+                        Text("Name")
                             .foregroundColor(Color.white.opacity(0.5))
                             .font(.system(size: 18, weight: .medium))
-                        TextField("Enter category name", text: $categoryName)
+                        TextField("Enter name", text: self.$name)
                             .padding()
                             .background(RoundedRectangle(cornerRadius: 18).stroke(Color.white.opacity(0.15), lineWidth: 2))
                             .foregroundColor(.white)
                     }
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Budget Limit")
+                        Text("Description")
                             .foregroundColor(Color.white.opacity(0.5))
                             .font(.system(size: 18, weight: .medium))
-                        TextField("Enter budget limit", text: $budgetLimit)
+                        TextField("Enter description", text: self.$description)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 18).stroke(Color.white.opacity(0.15), lineWidth: 2))
+                            .foregroundColor(.white)
+                    }
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Category")
+                            .foregroundColor(Color.white.opacity(0.5))
+                            .font(.system(size: 18, weight: .medium))
+                        Picker("Select category", selection: self.$selectedCategory) {
+                            ForEach(self.categories, id: \.self) { category in
+                                Text(category).tag(category)
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 18).stroke(Color.white.opacity(0.15), lineWidth: 2))
+                    }
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Income Sum")
+                            .foregroundColor(Color.white.opacity(0.5))
+                            .font(.system(size: 18, weight: .medium))
+                        TextField("Enter income sum", text: self.$sum)
                             .keyboardType(.decimalPad)
                             .padding()
                             .background(RoundedRectangle(cornerRadius: 18).stroke(Color.white.opacity(0.15), lineWidth: 2))
@@ -43,17 +69,17 @@ struct AddCategoryView: View {
                 }
                 .padding(.horizontal, 16)
                 Button(action: {
-                    // Validate and add category (mock)
-                    if categoryName.isEmpty || budgetLimit.isEmpty {
-                        errorMessage = "Please fill in all fields."
-                    } else if Double(budgetLimit) == nil {
-                        errorMessage = "Budget limit must be a number."
+                    // Validate and add income (mock)
+                    if self.name.isEmpty || self.description.isEmpty || self.sum.isEmpty {
+                        self.errorMessage = "Please fill in all fields."
+                    } else if Double(self.sum) == nil {
+                        self.errorMessage = "Income sum must be a number."
                     } else {
-                        errorMessage = nil
-                        // Add category logic here
+                        self.errorMessage = nil
+                        // Add income logic here
                     }
                 }) {
-                    Text("Add Category")
+                    Text("Add Income")
                         .font(.system(size: 22, weight: .semibold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -79,6 +105,6 @@ struct AddCategoryView: View {
 
 #Preview {
     NavigationView {
-        AddCategoryView()
+        AddIncomeView()
     }
-} 
+}
