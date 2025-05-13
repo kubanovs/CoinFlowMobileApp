@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CategoryDetailView: View {
+struct OutcomeCategoryDetailView: View {
     var categoryName: String
     
     @EnvironmentObject var outcomeDashboardViewModel : OutcomeDashboardViewModel
@@ -72,6 +72,6 @@ struct CategoryDetailView: View {
 
 //#Preview {
 //    NavigationView {
-//        CategoryDetailView(categoryName: "Auto & Transport")
+//        OutcomeCategoryDetailView(categoryName: "Auto & Transport")
 //    }
 //}

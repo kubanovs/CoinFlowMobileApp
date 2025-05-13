@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 
 @main
-struct CoinFlowMobileAppApp: App {
+struct CoinFlowMobileApp: App {
     @StateObject var authViewModel = AuthViewModel()
 
     var body: some Scene {

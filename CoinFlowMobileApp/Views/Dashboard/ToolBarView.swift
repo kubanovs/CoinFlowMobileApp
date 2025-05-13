@@ -17,7 +17,7 @@ struct ToolBarView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
     
-            NewBudgetDashBoardView()
+            OutcomeBudgetDashBoardView()
             .tabItem() {
                 Label("Outcomes", systemImage: "creditcard")
             }

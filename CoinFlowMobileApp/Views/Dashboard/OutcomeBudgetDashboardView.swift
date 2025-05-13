@@ -1,109 +1,181 @@
+//
+//  NewBudgetDashboardView.swift
+//  CoinFlowMobileApp
+//
+//  Created by Savr Kubanov on 10.05.2025.
+//
+
 import SwiftUI
 
-struct BudgetDashboardView: View {
-    @State private var selectedTab: BudgetTab = .outcome
-    @State private var showAddCategory = false
-    @State private var showAddIncomeCategory = false
-    @State private var selectedCategory: String? = nil
-    @State private var selectedIncomeCategory: String? = nil
-    @State private var showAddSpending = false
-    @State private var showAddIncome = false
-
+struct OutcomeBudgetDashBoardView: View {
+    
+    @EnvironmentObject var outcomeDashboardViewModel : OutcomeDashboardViewModel
+    
+    @State var showAddCategory = false
+    
+    @State var showSettings = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
                 Color(red: 0.15, green: 0.15, blue: 0.19)
                     .ignoresSafeArea()
-                VStack(spacing: 0) {
-                    // Header
-                    HStack {
-                        Spacer()
-                        Image(systemName: "gearshape")
-                            .font(.system(size: 28, weight: .medium))
-                            .foregroundColor(Color.white.opacity(0.7))
-                    }
-                    .padding(.horizontal)
-                    .padding(.top)
-                    // Arc progress
-                    ZStack {
-                        ArcProgressView(tab: self.selectedTab)
-                        VStack(spacing: 4) {
-                            Text(self.selectedTab == .outcome ? "$82,97" : "$1,200")
-                                .font(.system(size: 40, weight: .bold))
-                                .foregroundColor(.white)
-                            if self.selectedTab == .outcome {
-                                Text("of $2,000 budget")
-                                    .font(.system(size: 20, weight: .medium))
-                                    .foregroundColor(Color.white.opacity(0.5))
-                            }
-                        }
-                        .padding(.top, 100)
-                    }
-                    .frame(height: 180)
-                    Spacer()
-                    // Category cards
-                    VStack(spacing: 16) {
-                        if self.selectedTab == .outcome {
-                            BudgetCategoryCard(icon: "car", name: "Auto & Transport", left: "$375 left to spend", total: "$400", spent: "$25.99", progress: 0.06, color: Color.cyan)
-                                .onTapGesture { self.selectedCategory = "Auto & Transport" }
-                            BudgetCategoryCard(icon: "sparkles", name: "Entertainment", left: "$375 left to spend", total: "$600", spent: "$50.99", progress: 0.085, color: Color.orange)
-                                .onTapGesture { self.selectedCategory = "Entertainment" }
-                            BudgetCategoryCard(icon: "touchid", name: "Security", left: "$375 left to spend", total: "$600", spent: "$5.99", progress: 0.01, color: Color.purple)
-                                .onTapGesture { self.selectedCategory = "Security" }
-                        } else {
-                            BudgetCategoryCard(icon: "creditcard", name: "Salary", left: nil, total: "$1,200", spent: "$200.00", progress: 0.83, color: Color.green, showIncome: true)
-                                .onTapGesture { self.selectedIncomeCategory = "Salary" }
-                            BudgetCategoryCard(icon: "gift", name: "Gift", left: nil, total: "$300", spent: "$100.00", progress: 0.67, color: Color.blue, showIncome: true)
-                                .onTapGesture { self.selectedIncomeCategory = "Gift" }
-                        }
-                    }
-                    .padding(.horizontal)
-                    .padding(.top, self.selectedTab == .outcome ? 64 : 32)
-//                    NavigationLink(destination: self.selectedCategory.map { CategoryDetailView(categoryName: $0) }, isActive: Binding(get: { self.selectedCategory != nil }, set: { if !$0 { self.selectedCategory = nil } })) { EmptyView() }
-////                    NavigationLink(destination: self.selectedIncomeCategory.map { IncomeCategoryDetailView(categoryName: $0) }, isActive: Binding(get: { self.selectedIncomeCategory != nil }, set: { if !$0 { self.selectedIncomeCategory = nil } })) { EmptyView() }
-                    // Add new category
-                    HStack {
-                        Spacer()
-                        Text("Add new category")
-                            .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color.white.opacity(0.7))
-                        Image(systemName: "plus.circle")
-                            .font(.system(size: 22, weight: .medium))
-                            .foregroundColor(Color.white.opacity(0.7))
-                        Spacer()
-                    }
-                    .frame(height: 64)
-                    .background(
-                        RoundedRectangle(cornerRadius: 24)
-                            .stroke(style: StrokeStyle(lineWidth: 1, dash: [6]))
-                            .foregroundColor(Color.white.opacity(0.18))
+                VStack {
+                    BudgetDashBoardHeader(headerText: "Expences", showSettings: self.$showSettings)
+                    BudgetAnalytic(
+                        spendingSum: outcomeDashboardViewModel.getAllSpendings(),
+                        balance: outcomeDashboardViewModel.getAllBudget()
                     )
-                    .padding(.horizontal)
-                    .padding(.top, 8)
-                    .onTapGesture {
-                        if self.selectedTab == .outcome {
-                            self.showAddCategory = true
-                        } else {
-                            self.showAddIncomeCategory = true
-                        }
-                    }
-//                    NavigationLink(destination: AddIncomeCategoryView(), isActive: self.$showAddIncomeCategory) { EmptyView() }
-                    Spacer()
-                    // Tab bar
-                    BudgetTabBar(onPlusTapped: {
-                        if self.selectedTab == .outcome {
-                            self.showAddSpending = true
-                        } else {
-                            self.showAddIncome = true
-                        }
-                    })
-//                    NavigationLink(destination: AddTransactionView(), isActive: self.$showAddSpending) { EmptyView() }
-//                    NavigationLink(destination: AddIncomeView(), isActive: self.$showAddIncome) { EmptyView() }
+                    .environmentObject(outcomeDashboardViewModel.outcomeGraphicViewModel)
+                    OutcomeCategoryCardsList(categories: outcomeDashboardViewModel.allCategories, showAddCategory: $showAddCategory)
+                        .padding(.top, 100)
+                        .environmentObject(outcomeDashboardViewModel)
                 }
+                .frame(maxHeight: .infinity, alignment: .top)
             }
-            .navigationBarBackButtonHidden(true)
         }
     }
+}
+
+struct BudgetDashBoardHeader: View {
+    var headerText : String
+    
+    @Binding var showSettings : Bool
+    
+    var body: some View {
+        HStack {
+            Text(self.headerText)
+                .font(.system(size: 40, weight: .bold))
+                .foregroundColor(.white)
+            Spacer()
+            Button() {
+                self.showSettings = true
+            } label: {
+                Image(systemName: "gearshape")
+                    .font(.system(size: 28, weight: .medium))
+                    .foregroundColor(Color.white.opacity(0.7))
+            }
+            NavigationLink(destination: SettingsView(isActive: self.$showSettings), isActive: self.$showSettings) {
+                EmptyView()
+            }
+        }
+        .padding(.horizontal)
+        .padding(.top)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(.gray.opacity(0.3))
+                .frame(height : 1)
+                .offset(y: 8)
+        }
+    }
+}
+
+struct BudgetAnalytic: View {
+    var spendingSum: Double
+    var balance: Double
+
+    var body: some View {
+        ZStack {
+            BudgetGraphic()
+            VStack(spacing: 4) {
+                Text(String(format: "$%.2f", self.spendingSum))
+                    .font(.system(size: 40, weight: .bold))
+                    .foregroundColor(.white)
+                Text(String(format: "of $%.2f", self.balance))
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundColor(Color.white.opacity(0.5))
+            }
+            .padding(.top, 100)
+        }
+        .frame(height: 180)
+    }
+}
+
+struct BudgetGraphic: View {
+    @EnvironmentObject var outcomeGraphicViewModel : OutcomeGraphicViewModel
+    var body: some View {
+        ZStack {
+            let arcShapes = outcomeGraphicViewModel.getArcShapesForOutcomeGraphic()
+            ArcShape(startAngle: .degrees(135), endAngle: .degrees(405), clockwise: false)
+                .stroke(Color.white.opacity(0.12), style: StrokeStyle(lineWidth: 16, lineCap: .round))
+                .frame(width: 220, height: 120)
+            ForEach(arcShapes) { arcShape in
+                arcShape
+                    .stroke(arcShape.color, style: StrokeStyle(lineWidth: 16, lineCap: .round))
+                    .frame(width: 220, height: 120)
+            }
+        }
+    }
+}
+
+struct OutcomeCategoryCardsList : View {
+    var categories : [OutcomeCategory]
+    
+    @Binding var showAddCategory : Bool
+    
+    @State var selectedOutcomeCategory : String? = nil
+    
+    @EnvironmentObject var outcomeDashboardViewModel : OutcomeDashboardViewModel
+    
+    var body : some View {
+        VStack(spacing: 16) {
+            List {
+                ForEach(categories, id: \.self) { category in
+                    BudgetCategoryCard(icon: category.symbolName,
+                                       name: category.name,
+                                       left: String(format : "$%.2f left to spend", category.limit - category.spendingSum),
+                                       total: String(format: "$%.2f", category.limit),
+                                       spent: String(format: "$%.2f", category.spendingSum),
+                                       progress: category.spendingSum / category.limit,
+                                       color: Color(red: category.color.red, green: category.color.green, blue: category.color.blue))
+                    .onTapGesture {
+                        self.selectedOutcomeCategory = category.name
+                    }
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
+                    .frame(maxWidth: .infinity)
+                }
+                .onDelete(perform: deleteCategory)
+            }
+            .listStyle(PlainListStyle())
+            NavigationLink(destination: self.selectedOutcomeCategory.map { OutcomeCategoryDetailView(categoryName: $0, isActive: Binding(get: { self.selectedOutcomeCategory != nil }, set: { if !$0 { self.selectedOutcomeCategory = nil } })).environmentObject(outcomeDashboardViewModel) },
+                           isActive: Binding(get: { self.selectedOutcomeCategory != nil }, set: { if !$0 { self.selectedOutcomeCategory = nil } })) { EmptyView() }
+            HStack {
+                Spacer()
+                Text("Add new category")
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundColor(Color.white.opacity(0.7))
+                Image(systemName: "plus.circle")
+                    .font(.system(size: 22, weight: .medium))
+                    .foregroundColor(Color.white.opacity(0.7))
+                Spacer()
+            }
+            .frame(height: 64)
+            .background(
+                RoundedRectangle(cornerRadius: 24)
+                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [6]))
+                    .foregroundColor(Color.white.opacity(0.18))
+            )
+            .onTapGesture {
+                self.showAddCategory = true
+            }
+            NavigationLink(destination: AddOutcomeCategoryView(isActive: self.$showAddCategory).environmentObject(outcomeDashboardViewModel), isActive: self.$showAddCategory) { EmptyView() }
+            Spacer()
+        }
+        .padding(.horizontal)
+        
+//        .overlay(alignment: .top) {
+//            Rectangle()
+//                .fill(.gray.opacity(0.3))
+//                .frame(height : 1)
+//                .offset(y: -8)
+//        }
+    }
+    
+    private func deleteCategory(at offsets: IndexSet) {
+        offsets.map { categories[$0] }.forEach { outcomeDashboardViewModel.deleteCategory(category: $0) }
+    }
+        
 }
 
 enum BudgetTab: String, CaseIterable {
@@ -298,5 +370,7 @@ struct BudgetTabBar: View {
 }
 
 #Preview {
-    BudgetDashboardView()
+    NavigationStack {
+        OutcomeBudgetDashBoardView()
+    }
 }

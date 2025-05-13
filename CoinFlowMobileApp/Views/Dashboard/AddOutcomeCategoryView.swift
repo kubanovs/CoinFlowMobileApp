@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AddCategoryView: View {
+struct AddOutcomeCategoryView: View {
     @State private var categoryName = ""
     @State private var budgetLimit = ""
     @State private var errorMessage: String? = nil
@@ -53,7 +53,7 @@ struct AddCategoryView: View {
 
         var body: some View {
             NavigationView {
-                AddCategoryView(isActive: $isActive)
+                AddOutcomeCategoryView(isActive: $isActive)
             }
         }
     }
